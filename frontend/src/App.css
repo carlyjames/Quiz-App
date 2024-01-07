@@ -1,0 +1,97 @@
+@import url('https://fonts.cdnfonts.com/css/satoshi');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap');             
+*{
+    /* overflow-x: hidden; */
+    scroll-behavior: smooth;
+}
+  
+
+  
+  /* --------------------------------------------------------------------------------------- */
+.container-card{
+    /* width: 300px; */
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.container-card:hover .bg-1,.container-card:hover .bg-2,.container-card:hover .bg-3,.container-card:hover .bg-4,.container-card:hover .bg-6,.container-card:hover .bg-5{
+    transform: scale(1.2);
+    transition: all .3s ease-in-out;
+    @apply text-sm
+}
+
+.bg-1{
+    background-image:
+    linear-gradient(to bottom, #310070bd, #310070bd),
+    url('../src/assets/Images/DashCard/6.png');  /* background: #c084fcc5; */
+    background-position: center;
+    background-size: cover;
+    transition: all .3s ease-in;
+}
+
+
+
+.bg-2{
+    height: 200px;
+    background-image:
+    linear-gradient(to bottom, #191970dc, #191970dc),
+    url('../src/assets/Images/DashCard/1.png');  /* background: #c084fcc5; */
+    background-position: center;
+    background-size: cover;
+    transition: all .3s ease-in;
+}
+
+.bg-3{
+    height: 200px;
+    background-image:
+    linear-gradient(to bottom, #000080bb, #000080bb),
+    url('../src/assets/Images/DashCard/2.png');  /* background: #c084fcc5; */
+    background-position: center;
+    background-size: cover;
+    transition: all .3s ease-in;
+}
+
+.bg-4{
+    height: 200px;
+    background-image:
+    linear-gradient(to bottom, #191970de, #191970de),
+    url('../src/assets/Images/DashCard/3.png');  /* background: #c084fcc5; */
+    background-position: center;
+    background-size: cover;
+    transition: all .3s ease-in;
+}
+
+.bg-5{
+    height: 200px;
+    background-image:
+    linear-gradient(to bottom, #00008bc4, #00008bc4),
+    url('../src/assets/Images/DashCard/4.png');  /* background: #c084fcc5; */
+    background-position: center;
+    background-size: cover;
+    transition: all .3s ease-in;
+}
+
+.bg-6{
+    height: 200px;
+    background-image:
+    linear-gradient(to bottom, #11038fd2, #11038fd2),
+    url('../src/assets/Images/DashCard/5.png');  /* background: #c084fcc5; */
+    background-position: center;
+    background-size: cover;
+    transition: all .3s ease-in;
+}
+
+.banner{
+    background: url('../src/Pages/Dashboard/Images/ProfileCover.jpg') center/cover;
+    width: 100%;
+    height: 150px;
+}
+
+.profile-btn{
+    background: #130395;
+    color: white;
+    padding: 8px 24px;
+    border-radius: 8px;
+    @apply shadow;
+}
