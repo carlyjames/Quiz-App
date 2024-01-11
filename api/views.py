@@ -6,15 +6,15 @@ from api.serializer import (
     RegisterSerializer,
     addQuestionSerializer,
     QuizSerializer,
-    RandomQuestionSerializer,
     QuestionSerializer,
+    AddQuizSerializer,
 )
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics, status
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from django.http import HttpResponse
@@ -59,56 +59,61 @@ def dashboard(request):
 
 class AddQuestion(generics.CreateAPIView):
     serializer_class = addQuestionSerializer
-
-    def AddQuestion(request):
-        serializer_class = addQuestionSerializer(data=request.data)
-        if request.user.is_staff:
-            if serializer_class.is_valid():
-                serializer_class.save()
-            return Response(serializer_class)
-        else:
-            return None
+    queryset = Question.objects.all()
+    permission_classes = [IsAdminUser]
 
 
-# Generating random questions based on the category
-class RandomQuestion(APIView):
-    def get(self, request, format=None, **kwargs):
-        question = Question.objects.filter(category=kwargs["stack"]).order_by("?")[:1]
-        serializer = RandomQuestionSerializer(question, many=True)
-        return Response(serializer.data)
+class RetrieveUpdateQuiz(generics.RetrieveUpdateAPIView):
+    serializer_class = AddQuizSerializer
+    queryset = Quiz.objects.all()
+    permission_classes = [IsAdminUser]
+
+    def get_object(self):
+        quiz_id = self.kwargs.get("pk")
+        return Quiz.objects.get(pk=quiz_id)
+
+    # def update(self, request, pk):
+    #     # if "questions" in request.data:
+    #     #     quiz = self.get_object()
+    #     #     for question in request.data.get("questions"):
+    #     #         status = quiz.add_question(question)
+    #     #         if not status:
+    #     #             return Response(
+    #     #                 status=400,
+    #     #                 data="You have exceeded the maximum number of questions for this quiz",
+    #     #             )
+    #     super(RetrieveUpdateQuiz, self).update(request)
 
 
 # listing all the question based on the category
 class ListQuestion(APIView):
     def get(self, request, format=None, **kwargs):
-        question = Question.objects.filter(category=kwargs["stack"])
+        question = Question.objects.filter(quiz=kwargs["stack"])
         serializer = QuestionSerializer(question, many=True)
         return Response(serializer.data)
 
 
 class QuizQuestionView(APIView):
-    def get(self, request):
-        question = Question.objects.all().order_by("?")[:1]
-        question_data = QuizSerializer(question, many=True).data
-        return Response(question_data)
+    def get(self, request, format=None, **kwargs):
+        question = Question.objects.filter(quiz=kwargs["stack"]).order_by("?")[
+            :1
+        ]  # 1 for backend, 2 for frontend
+        serializer = QuizSerializer(question, many=True)
+        return Response(serializer.data)
 
     def check_answer(self, question_id, answer):
         question = Question.objects.get(pk=question_id)
         return question.answer == answer
 
-    def post(self, request):
-        # questions = Question.objects.all()
-
-        # print(request.data)
+    def post(self, request, **kwargs):
         score = 0
         correct = 0
         wrong = 0
         total = 0
         questions = request.data["questions"]
-        # print(questions)
         for question in questions:
-            # print(question)
             total += 1
+
             if self.check_answer(question["question"], question["answer"]):
                 correct += 1
                 score += 10

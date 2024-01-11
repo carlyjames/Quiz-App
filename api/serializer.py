@@ -1,4 +1,4 @@
-from api.models import User, Question
+from api.models import User, Question, Quiz
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
@@ -21,24 +21,32 @@ class addQuestionSerializer(serializers.ModelSerializer):
 class QuizSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        exclude = ["answer", "category"]
+        exclude = [
+            "answer",
+        ]
 
 
-class TakeQuizSerializer(serializers.Serializer):
-    question = serializers.PrimaryKeyRelatedField(queryset=Question.objects.all())
-    answer = serializers.CharField()
+class AddQuizSerializer(serializers.ModelSerializer):
+    # questions = addQuestionSerializer(many=True)
+
+    class Meta:
+        model = Quiz
+        fields = "__all__"
+
+        extra_kwargs = {
+            "quiz_title": {"read_only": True},
+        }
+
+
+# class TakeQuizSerializer(serializers.Serializer):
+#     question = serializers.PrimaryKeyRelatedField(queryset=Question.objects.all())
+#     answer = serializers.CharField()
 
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = "__all__"
-
-
-class RandomQuestionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Question
-        exclude = ["answer", "category"]
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

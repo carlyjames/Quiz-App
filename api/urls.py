@@ -9,7 +9,8 @@ urlpatterns = [
     path("register/", views.RegisterView.as_view()),
     path("dashboard/", views.dashboard),
     path("addquestion/", views.AddQuestion.as_view()),
-    path("app/", views.QuizQuestionView.as_view()),
-    path("r/<str:stack>/", views.RandomQuestion.as_view()),
+    # path("addquiz/", views.AddQuiz.as_view()),
+    path("updatequiz/<int:pk>", views.RetrieveUpdateQuiz.as_view()),
+    path("app/<str:stack>/", views.QuizQuestionView.as_view()),
     path("q/<str:stack>/", views.ListQuestion.as_view()),
 ]

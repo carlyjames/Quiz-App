@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
+from django.utils.text import slugify
 
 
 class User(AbstractUser):
@@ -38,17 +40,31 @@ post_save.connect(create_user_profile, sender=User)
 post_save.connect(save_user_profile, sender=User)
 
 
-CATEGORY_CHOICES = (
+Quiz_CHOICES = (
     ("Backend", "Backend"),
     ("Frontend", "Frontend"),
 )
 
 
-class Question(models.Model):
-    category = models.CharField(
-        max_length=10, choices=CATEGORY_CHOICES, default="backend"
+class Quiz(models.Model):
+    questions = models.ManyToManyField("Question", blank=True)
+    quiz_title = models.CharField(
+        max_length=200, choices=Quiz_CHOICES, default="Backend"
     )
+    num_questions = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.quiz_title
+
+    def add_question(self, question):
+        if self.questions.count() > self.num_questions:
+            return False
+        self.questions.add(question)
+        return True
+
+
+class Question(models.Model):
+    # quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question = models.CharField(max_length=500, null=True)
     option1 = models.CharField(max_length=250, null=True)
     option2 = models.CharField(max_length=250, null=True)
@@ -58,3 +74,8 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question
+
+
+class UserQuiz(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
