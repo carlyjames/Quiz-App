@@ -15,11 +15,11 @@
     position: relative;
 }
 
-.container-card:hover .bg-1,.container-card:hover .bg-2,.container-card:hover .bg-3,.container-card:hover .bg-4,.container-card:hover .bg-6,.container-card:hover .bg-5{
+/* .container-card:hover .bg-1,.container-card:hover .bg-2,.container-card:hover .bg-3,.container-card:hover .bg-4,.container-card:hover .bg-6,.container-card:hover .bg-5{
     transform: scale(1.2);
     transition: all .3s ease-in-out;
     @apply text-sm
-}
+} */
 
 .bg-1{
     background-image:

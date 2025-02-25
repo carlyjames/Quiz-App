@@ -96,10 +96,12 @@ function Navbar(props) {
                 {/* <Link>
                   <img className='h-[50px]' src={avatar11} alt="" />
                 </Link> */}
-                <div class="avatar-wrapper">
-                  <img src={avatar11} alt="Avatar" class="avatar" />
-                  <div class="verified-avatar-icon"></div>
-                </div>
+                <Link to='/dashboard'>
+                  <div class="avatar-wrapper">
+                    <img src={avatar11} alt="Avatar" class="avatar" />
+                    <div class="verified-avatar-icon"></div>
+                  </div>
+                </Link>
                 <IconButton sx={{ position: { xs: 'absolute', sm: 'relative' }, right : '0' }} className='absolute r-0 float-right' >
                   <LogoutIcon onClick={logoutUser} sx={{ color: 'white', fontSize: '28px' }} />
                 </IconButton>

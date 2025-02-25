@@ -8,3 +8,4 @@ export { default as OTP } from './Auth/OTP'
 // Dashboard
 export { default as Dashboard } from './Dashboard/Dashboard'
 export { default as Profile } from './Dashboard/Profile'
+export { default as Category } from './Dashboard/Category/Category'

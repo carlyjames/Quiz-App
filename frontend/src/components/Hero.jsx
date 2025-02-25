@@ -7,8 +7,15 @@ import dev from '../assets/Images/dev.png'
 import { Navbar } from '.'
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
+import jwtDecode from 'jwt-decode';
 
 const Hero = () => {
+  const token = localStorage.getItem("authTokens")
+
+  if (token) {
+    const decoded = jwtDecode(token)
+    var user_id = decoded.user_id
+  }
   return (
     <div className='flex flex-col  h-[100vh] z-20'>
       <Navbar />
@@ -21,7 +28,9 @@ const Hero = () => {
           <div className='z-20 shadow text-xs lg:text-sm h-[60px] flex items-center justify-start bg-green-100 rounded-xl px-4'><p>💡 Are you up for the challenge? Start your quiz journey today at Dev.Quiz and take the first step towards becoming the developer you aspire to be.</p></div>
           {/* <div className='z-20 shadow text-xs lg:text-sm h-[60px] flex items-center justify-start bg-yellow-100 rounded-xl px-4'><p>🌐 Accessible Anywhere, Anytime: DeveloperQuiz.com is accessible from the comfort of your home, office, or wherever you may be. </p></div> */}
           {/* <div className='z-20 shadow text-xs lg:text-sm h-[60px] flex items-center justify-start bg-red-100 rounded-xl px-4'><p>👨‍💻 Developers, for Developers: Created by developers, for developers, our team understands your needs and aspirations. </p></div> */}
-          <Link to='/signup' style={{ width : 'max-content' }}><Button className='hero-btn hero-holder1' variant='contained'>Get Started</Button></Link>
+          { token === null && <Link to='/signup' style={{ width : 'max-content' }}><Button className='hero-btn hero-holder1' variant='contained'>Get Started</Button></Link> }
+          {/* { token !== null && <Link to='/dashboard' style={{ width : 'max-content' }}><Button className='hero-btn hero-holder1' variant='contained'>Dashboard</Button></Link> } */}
+          
         </div>
         <img className='drop-shadow-2xl' src={dev} alt="" />
       </section>
